@@ -27,12 +27,29 @@ namespace upd
         return size;
     }
 
-    // the only supported operand index is zero, too lazy to fix
     uint32_t generator::get_operand(uint32_t pos, uint8_t op)
     {
         uint8_t opcode = *m_program.get_code_address(pos);
         if (op >= opcode_args[opcode].second.length())
             throw std::runtime_error("operand index out of range");
+
+        auto params = opcode_args[opcode].second;
+        int offset = 1;
+        for (int i = 0; i < pos; i++)
+        {
+            switch (params[i])
+            {
+            case '$': offset += *m_program.get_code_address(pos + offset) + 1; break;
+            case 'R': offset += 2; break;
+            case 'S': offset += ((size_t)(*m_program.get_code_address(pos + offset)) * 6 + 1); break;
+            case 'a': offset += 3; break;
+            case 'b': offset += 1; break;
+            case 'd':
+            case 'f': offset += 4; break;
+            case 'h':
+            case 's': offset += 2; break;
+            }
+        }
 
         switch (opcode_args[opcode].second[op])
         {
@@ -46,6 +63,8 @@ namespace upd
             case 'd':
                 return *(std::uint32_t*)m_program.get_code_address(pos + 1);
         }
+
+        return 0;
     }
 
 	bool generator::valid_index_opcode(uint32_t pos)

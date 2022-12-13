@@ -124,7 +124,7 @@ namespace upd
 				}
 				case '=': // output string with value
 				{
-					std::cout << read_string() << " = " << m_value << std::endl;
+					std::cout << read_string() << " = " << (std::int32_t)m_value << std::endl;
 					break;
 				}
 				case ';': // reset position and value

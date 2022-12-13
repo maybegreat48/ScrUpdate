@@ -98,6 +98,9 @@ enum class Opcode : uint8_t
 	ILT_JZ,
 	ILE_JZ,
 	CALL,
+	STACK,
+	STACK_LOAD,
+	STACK_STORE,
 	GLOBAL_U24,
 	GLOBAL_U24_LOAD,
 	GLOBAL_U24_STORE,
@@ -135,7 +138,7 @@ enum class Opcode : uint8_t
 };
 
 // https://github.com/Parik27/V.Rainbomizer/blob/master/lib/scrThread.cc table can also be found in PS4 dump
-static const inline std::array<std::pair<const char*, const std::string>, 128> opcode_args
+static const inline std::array<std::pair<const char*, const std::string>, 131> opcode_args
 =
 {{
 	{"NOP", ""},
@@ -232,6 +235,9 @@ static const inline std::array<std::pair<const char*, const std::string>, 128> o
 	{"ILT_JZ", "R"},
 	{"ILE_JZ", "R"},
 	{"CALL", "a"},
+	{"STACK", "a"},
+	{"STACK_LOAD", "a"},
+	{"STACK_STORE", "a"},
 	{"GLOBAL_U24", "a"},
 	{"GLOBAL_U24_LOAD", "a"},
 	{"GLOBAL_U24_STORE", "a"},
